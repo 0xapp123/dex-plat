@@ -1,0 +1,47 @@
+/* =====> pagination global style */
+.MuiPagination-ul {
+  gap: 8px !important;
+}
+.MuiPagination-ul > :nth-child(1) svg {
+  font-size: 34px !important;
+}
+.MuiPagination-ul > :last-child svg {
+  font-size: 34px !important;
+}
+.MuiPaginationItem-root {
+  font-size: 24px !important;
+  font-weight: 400 !important;
+  color: #676767 !important;
+}
+
+.MuiButtonBase-root[aria-current="true"] {
+  color: white !important;
+  width: 45px !important;
+  height: 42px !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 129, 10, 1) 0%,
+    rgba(255, 171, 92, 1) 100%
+  ) !important;
+}
+
+@media screen and (max-width: 500px) {
+  .MuiPagination-ul {
+    gap: 0px !important;
+  }
+  .MuiPaginationItem-root {
+    font-size: 18px !important;
+    font-weight: 400 !important;
+  }
+  .MuiButtonBase-root[aria-current="true"] {
+    color: white !important;
+    width: 28px !important;
+    height: 30px !important;
+  }
+  .MuiPagination-ul > :nth-child(1) svg {
+    font-size: 26px !important;
+  }
+  .MuiPagination-ul > :last-child svg {
+    font-size: 26px !important;
+  }
+}

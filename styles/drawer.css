@@ -1,0 +1,10 @@
+@media screen and (max-width: 900px) {
+  .drawer {
+    width: 60% !important;
+  }
+}
+@media screen and (max-width: 480px) {
+  .drawer {
+    width: 100% !important;
+  }
+}

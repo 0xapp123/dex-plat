@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset */
+
+html,
+body,
+p,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+blockquote,
+figure,
+fieldset,
+legend,
+textarea,
+pre,
+iframe,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+ul {
+  list-style: none;
+}
+button,
+input,
+select {
+  margin: 0;
+}
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+iframe {
+  border: 0;
+}
+
+/* ====> rechart style */
+.miniChart .recharts-surface {
+  border-radius: 40px !important;
+}
+
+.root {
+  --brand: theme("colors.dark-theme.brand.primary");
+  --brand-secondary: theme("colors.light-theme.brand.secondary");
+  --hover: theme("colors.dark-theme.hover");
+  --bkg-1: theme("colors.dark-theme.bkg-1");
+  --bkg-2: theme("colors.dark-theme.bkg-2");
+  --bkg-3: theme("colors.dark-theme.bkg-3");
+  --bkg-4: theme("colors.dark-theme.bkg-4");
+  --fkg-1: theme("colors.dark-theme.fkg-1");
+  --fkg-2: theme("colors.dark-theme.fkg-2");
+  --fkg-3: theme("colors.dark-theme.fkg-3");
+  --fkg-4: theme("colors.dark-theme.fkg-4");
+  --gradient-1: theme("colors.dark-theme.gradient-1");
+  --gradient-2: theme("colors.dark-theme.gradient-2");
+}
+/* dark theme */
+[data-theme="dark-theme"] {
+  --brand: theme("colors.dark-theme.brand.primary");
+  --brand-secondary: theme("colors.light-theme.brand.secondary");
+  --hover: theme("colors.dark-theme.hover");
+  --bkg-1: theme("colors.dark-theme.bkg-1");
+  --bkg-2: theme("colors.dark-theme.bkg-2");
+  --bkg-3: theme("colors.dark-theme.bkg-3");
+  --bkg-4: theme("colors.dark-theme.bkg-4");
+  --fkg-1: theme("colors.dark-theme.fkg-1");
+  --fkg-2: theme("colors.dark-theme.fkg-2");
+  --fkg-3: theme("colors.dark-theme.fkg-3");
+  --fkg-4: theme("colors.dark-theme.fkg-4");
+  --gradient-1: theme("colors.dark-theme.gradient-1");
+  --gradient-2: theme("colors.dark-theme.gradient-2");
+}
+/* light theme */
+[data-theme="light-theme"] {
+  --brand: theme("colors.light-theme.brand.primary");
+  --brand-secondary: theme("colors.light-theme.brand.secondary");
+  --bkg-1: theme("colors.light-theme.bkg-1");
+  --bkg-2: theme("colors.light-theme.bkg-2");
+  --bkg-3: theme("colors.light-theme.bkg-3");
+  --bkg-4: theme("colors.light-theme.bkg-4");
+  --fkg-1: theme("colors.light-theme.fkg-1");
+  --fkg-2: theme("colors.dark-theme.fkg-2");
+  --fkg-3: theme("colors.light-theme.fkg-3");
+  --fkg-4: theme("colors.dark-theme.fkg-4");
+  --gradient-1: theme("colors.light-theme.gradient-1");
+  --gradient-2: theme("colors.light-theme.gradient-2");
+}
+
+.hideScrollBar::-webkit-scrollbar {
+  display: none;
+}
+
+/* custom shadows */
+.header2 {
+  background: var(
+    --gradient-bg-1,
+    linear-gradient(135deg, #090b0b 0%, #1c2222 100%)
+  );
+}
+.connectWalletShadow {
+  background: var(
+    --gradient-primary-3,
+    linear-gradient(135deg, #b85900 0%, #ff810a 100%)
+  );
+}
+/* custom shadows ends here */
+/* react slick slider styles */
+.slick-prev::before {
+  display: none !important;
+}
+.slider {
+  display: flex !important;
+}
+
+/* react slick styles ends here */
