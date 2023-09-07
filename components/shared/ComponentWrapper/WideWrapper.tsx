@@ -8,7 +8,7 @@ interface Props {
 const WideWrapper: React.FC<Props> = ({ children, style }: Props) => {
   return (
     <div className={`w-full ${style}`}>
-      <div className="w-full h-full max-w-[1470px] m-auto md:px-8 px-4">
+      <div className="w-full h-full max-w-[1452px] m-auto md:px-8 px-4">
         {children}
       </div>
     </div>

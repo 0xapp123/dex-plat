@@ -12,6 +12,10 @@ import * as Icons from "../../SVG/Icons";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "react-slick";
+import OrdersTable from "@/components/Dex/OrdersTable";
+import BuySell from "@/components/Dex/BuySell";
+import Orderbook from "@/components/Dex/Orderbook";
+import SettleCard from "@/components/Dex/SettleCard";
 
 const Dex = () => {
   // states ------------->
@@ -130,7 +134,7 @@ const Dex = () => {
             </div>
           </div>
           {/* right portion ------------------> */}
-          <div className="flex gap-4 justify-center items-center absolute right-6">
+          {/* <div className="flex gap-4 justify-center items-center absolute right-6">
             <p className="text-[14px] text-white font-medium font-inter">
               Gainers
             </p>
@@ -139,7 +143,6 @@ const Dex = () => {
                 {[0, 1, 2, 3, 4].map((item: any, index: number) => {
                   return (
                     <div className="slider max-w-[180px] h-[70px] flex flex-col bg-[red] justify-center items-center bg-th-bkg-4 rounded-md">
-                      {/* coin icon + name */}
                       <div className="flex justify-center items-center gap-1">
                         <Image
                           src="/assets/apex.svg"
@@ -158,7 +161,7 @@ const Dex = () => {
                           </p>
                         </div>
                       </div>
-                      {/* coin price */}
+        
                       <div className="flex gap-1 justify-center items-center">
                         <p className="text-[14px] font-normal text-white">
                           $0.00042
@@ -173,33 +176,14 @@ const Dex = () => {
                 })}
               </Slider>
             </div>
-          </div>
+          </div> */}
         </div>
-        {/* trading panel + assets information + accounts section ----------------> */}
-        <div className="w-full h-[100vh-164px] grid gap-3 grid-cols-[2.5fr,1fr]">
-          {/* trading panel  */}
-          <div className="w-full h-full bg-th-bkg-4 flex justify-center items-center rounded-md">
-            <p className="text-[40px] font-bold font-inter uppercase text-white/70">
-              Trading Engine
-            </p>
-          </div>
-          {/* assets information + accounts section ----> */}
-          <div className="w-full flex flex-col gap-3">
-            {/* assets information ------->  */}
-            <AssetInformationWidget />
-            {/* Account section ---------> */}
-            <AccountsWidget />
-          </div>
+        <div className="flex mb-5 justify-between flex-wrap">
+          <BuySell />
+          <Orderbook />
+          <SettleCard />
         </div>
-        {/* order book + connect wallet + recent trades ------------------------> */}
-        <div className="w-full grid grid-cols-3 gap-3 mt-3">
-          {/* order book --------->  */}
-          <div className="w-full"></div>
-          {/* connect wallet --------->  */}
-          <ConnectWalletWidget />
-          {/* recent trades ---------> */}
-          <RecentTradesTable />
-        </div>
+        <OrdersTable />
       </div>
     </WideWrapper>
   );

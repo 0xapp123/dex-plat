@@ -13,7 +13,7 @@ import "slick-carousel/slick/slick-theme.css";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <React.Fragment>
-      <ThemeProvider defaultTheme="light-theme">
+      <ThemeProvider defaultTheme="dark-theme">
         <Layout>
           <Component {...pageProps} />
         </Layout>

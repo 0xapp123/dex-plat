@@ -30,6 +30,7 @@ h6 {
   margin: 0;
   padding: 0;
 }
+
 h1,
 h2,
 h3,
@@ -39,17 +40,21 @@ h6 {
   font-size: 100%;
   font-weight: normal;
 }
+
 ul {
   list-style: none;
 }
+
 button,
 input,
 select {
   margin: 0;
 }
+
 html {
   box-sizing: border-box;
 }
+
 *,
 *::before,
 *::after {
@@ -80,6 +85,7 @@ iframe {
   --gradient-1: theme("colors.dark-theme.gradient-1");
   --gradient-2: theme("colors.dark-theme.gradient-2");
 }
+
 /* dark theme */
 [data-theme="dark-theme"] {
   --brand: theme("colors.dark-theme.brand.primary");
@@ -96,6 +102,7 @@ iframe {
   --gradient-1: theme("colors.dark-theme.gradient-1");
   --gradient-2: theme("colors.dark-theme.gradient-2");
 }
+
 /* light theme */
 [data-theme="light-theme"] {
   --brand: theme("colors.light-theme.brand.primary");
@@ -118,22 +125,21 @@ iframe {
 
 /* custom shadows */
 .header2 {
-  background: var(
-    --gradient-bg-1,
-    linear-gradient(135deg, #090b0b 0%, #1c2222 100%)
-  );
+  background: var(--gradient-bg-1,
+      linear-gradient(135deg, #090b0b 0%, #1c2222 100%));
 }
+
 .connectWalletShadow {
-  background: var(
-    --gradient-primary-3,
-    linear-gradient(135deg, #b85900 0%, #ff810a 100%)
-  );
+  background: var(--gradient-primary-3,
+      linear-gradient(135deg, #b85900 0%, #ff810a 100%));
 }
+
 /* custom shadows ends here */
 /* react slick slider styles */
 .slick-prev::before {
   display: none !important;
 }
+
 .slider {
   display: flex !important;
 }
