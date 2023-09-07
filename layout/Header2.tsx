@@ -55,11 +55,10 @@ const Header2 = () => {
                           onClick={() => {
                             setIsTokenomicsDropDown(!isTokenomicsDropDown);
                           }}
-                          className={`capitalize relative text-th-brand text-[16px] font-inter ${
-                            item.path === Router.pathname
+                          className={`capitalize relative text-th-brand text-[16px] font-inter ${item.path === Router.pathname
                               ? "font-medium"
                               : "font-thin"
-                          } `}
+                            } `}
                         >
                           {item.name}
                           {/* new badge-------------- */}
@@ -80,15 +79,13 @@ const Header2 = () => {
                       <Link
                         key={index}
                         href="#"
-                        className={`${
-                          index + 1 === Data.header2Data.length
+                        className={`${index + 1 === Data.header2Data.length
                             ? "hidden"
                             : "block"
-                        } capitalize relative text-th-brand text-[16px] font-inter ${
-                          item.path === Router.pathname
+                          } capitalize relative text-th-brand text-[16px] font-inter ${item.path === Router.pathname
                             ? "font-medium"
                             : "font-thin"
-                        } `}
+                          } `}
                       >
                         {item.name}
                         {/* new badge-------------- */}
@@ -107,7 +104,7 @@ const Header2 = () => {
           {/* ===> right portion */}
           <div className="hidden lg:flex justify-center items-center gap-4">
             <FillButton
-              text="Add market"
+              text="Connect"
               styles="w-[120px] h-[40px] bg-[#2E3838] text-th-brand font-inter font-medium text-[16px]"
             />
             {/* ===> logo */}
