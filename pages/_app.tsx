@@ -1,23 +1,37 @@
-import React, { useState } from "react";
-import "@/styles/globals.css";
-import "@/styles/drawer.css";
-import "@/styles/faq.css";
-import "@/styles/pagination.css";
-import type { AppProps } from "next/app";
-import Layout from "@/layout/Layout";
-import { ThemeProvider } from "next-themes";
-// ==> slick styles
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { NextPage } from "next";
+import { AppProps } from "next/app";
+import { FC } from "react";
+import { ToastContainer } from "react-toastify";
+import { SerumProvider } from "../context/SerumContext";
+import { SolanaProvider } from "../context/SolanaContext";
 
-export default function App({ Component, pageProps }: AppProps) {
+// Use require instead of import since order matters
+require("@solana/wallet-adapter-react-ui/styles.css");
+require("../styles/globals.css");
+require("react-toastify/dist/ReactToastify.css");
+
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactNode) => React.ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const App: FC<AppPropsWithLayout> = ({
+  Component,
+  pageProps,
+}: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout || ((page) => page);
+
   return (
-    <React.Fragment>
-      <ThemeProvider defaultTheme="dark-theme">
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
-    </React.Fragment>
+    <SolanaProvider>
+      <SerumProvider>
+        <ToastContainer theme="dark" position="bottom-right" autoClose={2000} />
+        {getLayout(<Component {...pageProps} />)}
+      </SerumProvider>
+    </SolanaProvider>
   );
-}
+};
+
+export default App;
