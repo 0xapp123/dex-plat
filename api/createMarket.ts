@@ -10,8 +10,9 @@ import {
     getProvider,
 } from "@coral-xyz/anchor";
 import { authority, programId, RPC } from "./utils";
-import { OpenBookV2Client } from "../sdk";
+
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
+import { OpenBookV2Client } from "../sdk";
 
 
 export const createMarket = async () => {
@@ -28,10 +29,10 @@ export const createMarket = async () => {
     );
 
     const baseMint = new PublicKey(
-        "CEcLT3615yru4tLZfrPSQ9cJmYGtqtXMd25AjfnumPtQ"
+        "A8XQEAB4BrrSWthUSQRFYVD6ujwHH57fSiMb9PvZYdT5"
     );
     const quoteMint = new PublicKey(
-        "FLSJqDK2zGsA9r2qU6mUjJ1xq2eQXW8H2u8W2ekZ1T81"
+        "5ARDtw9P4cyrrf8PypPe9XFyq2o2inxobNaco88YeraB"
     );
 
     const oracleAId = null;

@@ -20,6 +20,7 @@
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^2.0.12",
     "@metaplex/js": "^4.12.0",
+    "@openbook-dex/openbook-v2": "^0.0.6",
     "@project-serum/serum": "^0.13.65",
     "@solana/spl-token": "0.3.8",
     "@solana/wallet-adapter-base": "^0.9.5",

@@ -2,10 +2,15 @@ import Image from 'next/image';
 import React from 'react'
 import { BUY_SELL_TABS, ORDER_TYPE_TABS } from '../../constants/tabs.constants';
 import { LIMIT_ICON, MARKET_ICON, MONKEY_ICON, USDC_ICON } from '../../constants/image.constants';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 
 const BuySell = () => {
     const [activeTab, setActiveTab] = React.useState<string | undefined>("buy");
     const [activeOrderType, setActiveOrderType] = React.useState<string | undefined>("limit");
+
+    const wallet = useWallet();
+    const { visible, setVisible } = useWalletModal();
     return (
         <div className='bg-grey-2 rounded-[8px] w-[423px]'>
             <div className='flex'>
@@ -74,8 +79,18 @@ const BuySell = () => {
                         100%
                     </div>
                 </div>
-                <button className='w-full bg-orang text-white py-3 rounded-[8px] text-[16px] font-medium leading-[16px]'>
-                    Connect wallet
+                <button className='w-full bg-orang text-white py-3 rounded-[8px] text-[16px] font-medium leading-[16px]'
+                    onClick={
+                        wallet.connected
+                            ? () => {
+
+                            }
+                            : () => setVisible(!visible)
+                    }
+                >
+                    {wallet.connected && wallet.publicKey
+                        ? (activeTab === "buy" ? "Buy" : "Sell")
+                        : "Connect Wallet"}
                 </button>
             </div>
 

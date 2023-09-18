@@ -4,6 +4,7 @@ import { utils, Program, type Provider, getProvider } from '@coral-xyz/anchor';
 import * as anchor from "@coral-xyz/anchor";
 
 import { IDL, type OpenbookV2 } from './openbook_v2';
+import { error } from 'console';
 const BATCH_TX_SIZE = 50;
 
 export async function findAccountsByMints(
@@ -71,35 +72,40 @@ export async function findAllMarkets(
         tx?.meta?.innerInstructions !== undefined
       )
         for (const innerIns of tx.meta.innerInstructions) {
-          // validate key and program key
-          const eventAuthorityKey = innerIns.instructions[1].accounts[0];
-          const programKey = innerIns.instructions[1].programIdIndex;
+          // console.log("innerIns.instructions[1]", innerIns.instructions[1])
+          if (innerIns.instructions[1] && innerIns.instructions[1].accounts[0]) {
+            console.log("err")
+            // validate key and program key
+            const eventAuthorityKey = innerIns.instructions[1].accounts[0];
+            const programKey = innerIns.instructions[1].programIdIndex;
 
-          if (
-            (tx.transaction.message as Message).staticAccountKeys[eventAuthorityKey].toString() !==
-            eventAuthority.toString() ||
-            (tx.transaction.message as Message).staticAccountKeys[programKey].toString() !==
-            programId.toString()
-          ) {
-            continue;
-          } else {
-            const ixData = utils.bytes.bs58.decode(
-              innerIns.instructions[1].data,
-            );
-            const eventData = utils.bytes.base64.encode(ixData.slice(8));
-            const event = program.coder.events.decode(eventData);
+            if (
+              (tx.transaction.message as Message).staticAccountKeys[eventAuthorityKey].toString() !==
+              eventAuthority.toString() ||
+              (tx.transaction.message as Message).staticAccountKeys[programKey].toString() !==
+              programId.toString()
+            ) {
+              continue;
+            } else {
+              const ixData = utils.bytes.bs58.decode(
+                innerIns.instructions[1].data,
+              );
+              const eventData = utils.bytes.base64.encode(ixData.slice(8));
+              const event = program.coder.events.decode(eventData);
 
-            if (event != null) {
-              const market: Market = {
-                market: (event.data.market as PublicKey).toString(),
-                baseMint: (event.data.baseMint as PublicKey).toString(),
-                quoteMint: (event.data.quoteMint as PublicKey).toString(),
-                name: event.data.name as string,
-                timestamp: tx.blockTime,
-              };
-              marketsAll.push(market);
+              if (event != null) {
+                const market: Market = {
+                  market: (event.data.market as PublicKey).toString(),
+                  baseMint: (event.data.baseMint as PublicKey).toString(),
+                  quoteMint: (event.data.quoteMint as PublicKey).toString(),
+                  name: event.data.name as string,
+                  timestamp: tx.blockTime,
+                };
+                marketsAll.push(market);
+              }
             }
           }
+
         }
     }
   }

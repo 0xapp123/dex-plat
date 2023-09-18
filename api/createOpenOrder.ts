@@ -14,8 +14,10 @@ import {
     getProvider,
 } from "@coral-xyz/anchor";
 import { authority, programId, RPC } from "./utils";
-import { OpenBookV2Client } from "../sdk";
+
+// import { OpenBookV2Client } from '@openbook-dex/openbook-v2';
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
+import { OpenBookV2Client } from "../sdk";
 export const createOpenOrder = async () => {
     const wallet = new NodeWallet(authority);
     const provider = new AnchorProvider(new Connection(RPC), wallet, {
@@ -23,9 +25,13 @@ export const createOpenOrder = async () => {
     });
     const client = new OpenBookV2Client(programId, provider);
 
-    const market = new PublicKey("CwHc9CZ9UCZFayz4eBekuhhKsHapLDPYfX4tGFJrnTRt");
-    const accountIndex = new BN(1);
-    const openOrdersIndexer = new PublicKey("4LKowR6kLD266i3MSSegDabsbSzd3ybrL1qGF4cWREk1");
+
+
+    const market = new PublicKey("4dxapcfjMeWrFWRAPQTgJ17oaBoFonZMxRy1W7aW2kJQ");
+    const openOrdersIndexer = client.findOpenOrdersIndexer(market);
+    const res = await client.getOpenOrdersIndexer(openOrdersIndexer);
+    const number = res?.createdCounter;
+    const accountIndex = new BN(number ? number : 0 + 1);
 
     const tx = await client.createOpenOrders(
         market,

@@ -37,6 +37,8 @@ export type OracleConfigParams = IdlTypes<OpenbookV2>['OracleConfigParams'];
 export type OracleConfig = IdlTypes<OpenbookV2>['OracleConfig'];
 export type MarketAccount = IdlAccounts<OpenbookV2>['market'];
 export type OpenOrdersAccount = IdlAccounts<OpenbookV2>['openOrdersAccount'];
+export type OpenOrdersIndexerAccount = IdlAccounts<OpenbookV2>['openOrdersIndexer'];
+
 export type EventHeapAccount = IdlAccounts<OpenbookV2>['eventHeap'];
 export type BookSideAccount = IdlAccounts<OpenbookV2>['bookSide'];
 export type LeafNode = IdlTypes<OpenbookV2>['LeafNode'];
@@ -151,6 +153,15 @@ export class OpenBookV2Client {
     }
   }
 
+  public async getOpenOrdersIndexer(
+    publicKey: PublicKey,
+  ): Promise<OpenOrdersIndexerAccount | null> {
+    try {
+      return await this.program.account.openOrdersIndexer.fetch(publicKey);
+    } catch {
+      return null;
+    }
+  }
   public async getEventHeap(
     publicKey: PublicKey,
   ): Promise<EventHeapAccount | null> {
@@ -314,7 +325,7 @@ export class OpenBookV2Client {
         Buffer.from('OpenOrders'),
         this.walletPk.toBuffer(),
         market.toBuffer(),
-        Buffer.from(accountIndex.toString()),
+        accountIndex.toArrayLike(Buffer, 'le', 4)
       ],
       this.programId,
     );

@@ -4,18 +4,14 @@ import {
     Connection,
     Keypair,
     PublicKey,
-    ComputeBudgetProgram,
-    SystemProgram,
-    Transaction,
 } from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
-import * as os from "os";
-import { IDL, OpenbookV2 } from "../sdk";
+import { IDL, OpenbookV2 } from "@openbook-dex/openbook-v2";
 import WalletSeed from "./id.json"
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import * as splToken from "@solana/spl-token";
 
-export const RPC = "https://api.devnet.solana.com";
+export const RPC = "https://powerful-lingering-sea.solana-devnet.discover.quiknode.pro/14ae4c2cee1fe9b0b81ac65ec9e2e98c2f9dd3af/";
 
 export const programId = new PublicKey(
     "opnbkNkqux64GppQhwbyEVc3axhssFhVYuwar8rDHCu"

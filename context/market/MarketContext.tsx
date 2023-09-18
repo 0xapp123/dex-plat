@@ -2,7 +2,7 @@ import { Market, OpenOrders } from "@project-serum/serum";
 import { createContext, ReactNode, useContext } from "react";
 import { useMetaplexMetadata, useSPLToken } from "../../hooks";
 import { programs } from "@metaplex/js";
-import { Mint } from "@solana/spl-token-2";
+import { Mint } from "@solana/spl-token";
 import { Event } from "@project-serum/serum/lib/queue";
 import { useConnection } from "@solana/wallet-adapter-react";
 import useSWR, { KeyedMutator } from "swr";
