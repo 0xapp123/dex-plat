@@ -73,7 +73,7 @@ const SettleCard = () => {
                         Need a Solana wallet?
                     </div>
 
-                    <div className='flex gap-1'>
+                    <div className='flex gap-1 items-center'>
                         <a href="https://chrome.google.com/webstore/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa" target='_blank' className='text-orang text-[14px] leading-[20px] font-normal underline' rel="noreferrer">Phantom</a>
                         <span className='text-grey-1'>|</span>
                         <a href="https://chrome.google.com/webstore/detail/slope-wallet/pocmplpaccanhmnllbbkpgfliimjljgo" target='_blank' className='text-orang text-[14px] leading-[20px] font-normal underline' rel="noreferrer">Slope</a>

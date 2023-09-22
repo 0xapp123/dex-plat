@@ -3,7 +3,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { FC, useRef, useState } from "react";
 import { useOutsideAlerter } from "../../hooks/useOutsideAlerter";
-import { copyTextToClipboard } from "../../utils/general";
+import { copyTextToClipboard } from "../../sdk/utils/general";
+
 
 const WalletButton: FC = () => {
   const wallet = useWallet();
