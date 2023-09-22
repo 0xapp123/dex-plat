@@ -13,7 +13,7 @@ import { RPC, authority, programId } from "../api/utils";
 // import { OpenBookV2Client, PlaceOrderArgs, Side } from "@openbook-dex/openbook-v2";
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, Token } from "@solana/spl-token";
 import { getAssociatedTokenAccount } from "./tokenUtils";
-import { OpenBookV2Client, PlaceOrderArgs } from "../sdk";
+import { OpenBookV2Client, PlaceOrderArgs, Side } from "../sdk";
 
 export const placeOrder = async () => {
     console.log("getBookSide")

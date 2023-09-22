@@ -37,6 +37,7 @@ export type OracleConfigParams = IdlTypes<OpenbookV2>['OracleConfigParams'];
 export type OracleConfig = IdlTypes<OpenbookV2>['OracleConfig'];
 export type MarketAccount = IdlAccounts<OpenbookV2>['market'];
 export type OpenOrdersAccount = IdlAccounts<OpenbookV2>['openOrdersAccount'];
+// Import OpenOrdersIndexerAccount Type For getOpenOrdersIndexer
 export type OpenOrdersIndexerAccount = IdlAccounts<OpenbookV2>['openOrdersIndexer'];
 
 export type EventHeapAccount = IdlAccounts<OpenbookV2>['eventHeap'];
@@ -152,7 +153,7 @@ export class OpenBookV2Client {
       return null;
     }
   }
-
+  // Get the OpenOrderIndexer by using this function
   public async getOpenOrdersIndexer(
     publicKey: PublicKey,
   ): Promise<OpenOrdersIndexerAccount | null> {
@@ -320,6 +321,8 @@ export class OpenBookV2Client {
   }
 
   public findOpenOrders(market: PublicKey, accountIndex: BN): PublicKey {
+    // To Fix RunTime Error:
+    // TypeError: accountIndex.toBuffer is not a function
     const [openOrders] = PublicKey.findProgramAddressSync(
       [
         Buffer.from('OpenOrders'),
@@ -335,14 +338,20 @@ export class OpenBookV2Client {
   public async createOpenOrders(
     market: PublicKey,
     accountIndex: BN,
-    openOrdersIndexer?: PublicKey | null,
+    openOrdersIndexer?: PublicKey,
   ): Promise<TransactionSignature> {
     if (openOrdersIndexer == null) {
       openOrdersIndexer = this.findOpenOrdersIndexer(market);
-      console.log("Indexer:  ", openOrdersIndexer.toBase58());
-      const acc = await this.connection.getAccountInfo(openOrdersIndexer);
-
-      if (acc == null) {
+      try {
+        const acc = await this.connection.getAccountInfo(openOrdersIndexer);
+        if (acc == null) {
+          const tx = await this.createOpenOrdersIndexer(
+            market,
+            openOrdersIndexer,
+          );
+          console.log('Created open orders indexer', tx);
+        }
+      } catch {
         const tx = await this.createOpenOrdersIndexer(
           market,
           openOrdersIndexer,
@@ -355,6 +364,7 @@ export class OpenBookV2Client {
         code: 403,
       });
     }
+    accountIndex = accountIndex.add(new BN(1));
     const openOrders = this.findOpenOrders(market, accountIndex);
 
     const ix = await this.program.methods
@@ -500,6 +510,46 @@ export class OpenBookV2Client {
     return await this.sendAndConfirmTransaction([ix], { signers });
   }
 
+  public async placeTakeOrder(
+    marketPublicKey: PublicKey,
+    market: MarketAccount,
+    userBaseAccount: PublicKey,
+    userQuoteAccount: PublicKey,
+    openOrdersAdmin: PublicKey | null,
+    args: PlaceOrderArgs,
+    referrerAccount: PublicKey | null,
+    openOrdersDelegate?: Keypair,
+  ): Promise<TransactionSignature> {
+    const ix = await this.program.methods
+      .placeTakeOrder(args)
+      .accounts({
+        signer:
+          openOrdersDelegate != null
+            ? openOrdersDelegate.publicKey
+            : this.walletPk,
+        asks: market.asks,
+        bids: market.bids,
+        eventHeap: market.eventHeap,
+        market: marketPublicKey,
+        oracleA: market.oracleA.key,
+        oracleB: market.oracleB.key,
+        userBaseAccount,
+        userQuoteAccount,
+        marketBaseVault: market.marketBaseVault,
+        marketQuoteVault: market.marketQuoteVault,
+        marketAuthority: market.marketAuthority,
+        referrerAccount,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        openOrdersAdmin,
+      })
+      .instruction();
+    const signers: Signer[] = [];
+    if (openOrdersDelegate != null) {
+      signers.push(openOrdersDelegate);
+    }
+    return await this.sendAndConfirmTransaction([ix], { signers });
+  }
+
   public async cancelAndPlaceOrders(
     openOrdersPublicKey: PublicKey,
     marketPublicKey: PublicKey,
@@ -521,7 +571,7 @@ export class OpenBookV2Client {
         asks: market.asks,
         bids: market.bids,
         marketQuoteVault: market.marketQuoteVault,
-        marketBaseVault: market.marketQuoteVault,
+        marketBaseVault: market.marketBaseVault,
         eventHeap: market.eventHeap,
         market: marketPublicKey,
         openOrdersAccount: openOrdersPublicKey,

@@ -24,7 +24,7 @@ const Home = () => {
     // getMarkets()
     // createOpenOrder();
     // placeOrder()
-    // postOrder();
+    postOrder();
     // createMarket();
     // getLeafNodes()
   }, [])

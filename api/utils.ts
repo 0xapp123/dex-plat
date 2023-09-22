@@ -11,7 +11,7 @@ import WalletSeed from "./id.json"
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import * as splToken from "@solana/spl-token";
 
-export const RPC = "https://powerful-lingering-sea.solana-devnet.discover.quiknode.pro/14ae4c2cee1fe9b0b81ac65ec9e2e98c2f9dd3af/";
+export const RPC = "https://mango.devnet.rpcpool.com/";
 
 export const programId = new PublicKey(
     "opnbkNkqux64GppQhwbyEVc3axhssFhVYuwar8rDHCu"

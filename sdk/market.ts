@@ -1,10 +1,8 @@
 import { PublicKey, type Connection, type AccountInfo, ParsedInstruction, PartiallyDecodedInstruction, Message } from '@solana/web3.js';
 import { getFilteredProgramAccounts } from './client';
 import { utils, Program, type Provider, getProvider } from '@coral-xyz/anchor';
-import * as anchor from "@coral-xyz/anchor";
 
 import { IDL, type OpenbookV2 } from './openbook_v2';
-import { error } from 'console';
 const BATCH_TX_SIZE = 50;
 
 export async function findAccountsByMints(
@@ -42,9 +40,8 @@ export async function findAllMarkets(
   programId: PublicKey,
   provider?: Provider,
 ): Promise<Market[]> {
-  let cloneWindow: any = window;
-  if (!provider) {
-    provider = new anchor.AnchorProvider(connection, cloneWindow['solana'], anchor.AnchorProvider.defaultOptions())
+  if (provider == null) {
+    provider = getProvider();
   }
   const program = new Program<OpenbookV2>(IDL, programId, provider);
 
@@ -62,6 +59,8 @@ export async function findAllMarkets(
     batchSignatures.push(signatures.slice(0, BATCH_TX_SIZE));
   }
   for (const batch of batchSignatures) {
+    // To fix this Runtime error we should add this line
+    // SolanaJSONRPCError: failed to get transactions: Transaction version (0) is not supported by the requesting client. Please try the request again with the following configuration parameter: "maxSupportedTransactionVersion": 0
     const allTxs = await connection.getTransactions(batch, {
       commitment: 'confirmed',
       maxSupportedTransactionVersion: 0,
@@ -72,43 +71,44 @@ export async function findAllMarkets(
         tx?.meta?.innerInstructions !== undefined
       )
         for (const innerIns of tx.meta.innerInstructions) {
-          // console.log("innerIns.instructions[1]", innerIns.instructions[1])
+          // We should check the type if there is the exact field
+          // TypeError: Cannot read properties of undefined (reading 'accounts')
           if (innerIns.instructions[1] && innerIns.instructions[1].accounts[0]) {
             console.log("err")
             // validate key and program key
             const eventAuthorityKey = innerIns.instructions[1].accounts[0];
             const programKey = innerIns.instructions[1].programIdIndex;
 
-            if (
+          // To fix this TypeError we should define this types
+          // TypeError: Cannot read properties of undefined (reading '12')
+          if (
               (tx.transaction.message as Message).staticAccountKeys[eventAuthorityKey].toString() !==
               eventAuthority.toString() ||
               (tx.transaction.message as Message).staticAccountKeys[programKey].toString() !==
               programId.toString()
-            ) {
-              continue;
-            } else {
-              const ixData = utils.bytes.bs58.decode(
-                innerIns.instructions[1].data,
-              );
-              const eventData = utils.bytes.base64.encode(ixData.slice(8));
-              const event = program.coder.events.decode(eventData);
+          ) {
+            continue;
+          } else {
+            const ixData = utils.bytes.bs58.decode(
+              innerIns.instructions[1].data,
+            );
+            const eventData = utils.bytes.base64.encode(ixData.slice(8));
+            const event = program.coder.events.decode(eventData);
 
-              if (event != null) {
-                const market: Market = {
-                  market: (event.data.market as PublicKey).toString(),
-                  baseMint: (event.data.baseMint as PublicKey).toString(),
-                  quoteMint: (event.data.quoteMint as PublicKey).toString(),
-                  name: event.data.name as string,
-                  timestamp: tx.blockTime,
-                };
-                marketsAll.push(market);
-              }
+            if (event != null) {
+              const market: Market = {
+                market: (event.data.market as PublicKey).toString(),
+                baseMint: (event.data.baseMint as PublicKey).toString(),
+                quoteMint: (event.data.quoteMint as PublicKey).toString(),
+                name: event.data.name as string,
+                timestamp: tx.blockTime,
+              };
+              marketsAll.push(market);
             }
           }
-
         }
+      }
     }
   }
-
   return marketsAll;
 }
