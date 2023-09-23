@@ -18,15 +18,16 @@ import { postOrder } from '../api/postOrder';
 import { getOpenOrders } from '../api/getOpenOrders';
 import { getLeafNodes } from '../api/getLeafNodes';
 import { placeOrder } from '../api/placeOrder';
+import { getBookSide } from '../api/getBookSide';
 const Home = () => {
   const [isFavorite, setIsFavorite] = React.useState(false);
   useEffect(() => {
     // getMarkets()
     // createOpenOrder();
     // placeOrder()
-    postOrder();
+    // postOrder();
     // createMarket();
-    // getLeafNodes()
+    getLeafNodes()
   }, [])
   return (
 

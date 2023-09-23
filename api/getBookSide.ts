@@ -21,5 +21,9 @@ export const getBookSide = async () => {
         commitment: "confirmed",
     });
     const client = new OpenBookV2Client(programId, provider);
-    console.log(await client.getBookSide(new PublicKey("6vHugL4dXs95B9CcBKex68fV3B9hT5VkUNph9BRdKfb1")));
+    // const marketData = await client.getMarket(new PublicKey("4dxapcfjMeWrFWRAPQTgJ17oaBoFonZMxRy1W7aW2kJQ"));
+    // console.log(marketData?.bids.toBase58())
+    // console.log(marketData?.asks.toBase58())
+    // if (marketData?.bids) console.log("Bids:  ", await client.getBookSide(marketData?.bids));
+    // if (marketData?.asks) console.log("Asks:  ", await client.getBookSide(marketData?.asks));
 }

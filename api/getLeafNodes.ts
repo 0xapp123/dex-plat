@@ -20,9 +20,18 @@ export const getLeafNodes = async () => {
         commitment: "confirmed",
     });
     const client = new OpenBookV2Client(programId, provider);
-    const bookSideAccount: BookSideAccount = await client.getBookSide(new PublicKey("4dxapcfjMeWrFWRAPQTgJ17oaBoFonZMxRy1W7aW2kJQ"));
-    console.log("bookSideAccount", bookSideAccount)
+    const marketData = await client.getMarket(new PublicKey("4dxapcfjMeWrFWRAPQTgJ17oaBoFonZMxRy1W7aW2kJQ"));
 
-    const leafNodes = client.getLeafNodes(bookSideAccount);
-    console.log("leafNodes", leafNodes);
+    if (!marketData?.bids || !marketData.asks) return;
+
+    const bidsAcc: BookSideAccount | null  = await client.getBookSide(marketData?.bids);
+    const asksAcc: BookSideAccount | null  = await client.getBookSide(marketData?.asks);
+    console.log("BidBookSideAccount", bidsAcc)
+    console.log("AskBbookSideAccount", asksAcc)
+
+    if (!bidsAcc || !asksAcc) return;
+    const bidLeafNodes = client.getLeafNodes(bidsAcc);
+    const askLeafNodes = client.getLeafNodes(asksAcc);
+    console.log("BidLeafNodes", bidLeafNodes);
+    console.log("AskLeafNodes", askLeafNodes);
 }
